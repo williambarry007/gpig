@@ -17,11 +17,11 @@ Assumptions:
 - Your gemspec references a VERSION variable.
 - That VERSION variable is referenced in a version file that you give to gpig.
 
-<code>
-module Gpig<br />
-  VERSION = '0.0.1'<br />
+<pre>
+module Gpig
+  VERSION = '0.0.1'
 end
-</code>
+</pre>
 
 Example:
 
