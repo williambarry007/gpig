@@ -18,11 +18,9 @@ Assumptions:
 - That VERSION variable is referenced in a version file that you give to gpig.
 
 <code>
-<p>
 module Gpig<br />
   VERSION = '0.0.1'<br />
 end
-</p>
 </code>
 
 Example:
