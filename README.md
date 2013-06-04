@@ -15,6 +15,15 @@ This tool helps with gem development.  It allows a developer to quickly develop 
 Assumptions:
 
 - Your gemspec references a VERSION variable.
+
+<pre>
+Gem::Specification.new do |s|
+  s.name        = "gpig"
+  s.version     = Gpig::VERSION
+  ..
+  ..
+</pre>
+
 - That VERSION variable is referenced in a version file that you give to gpig.
 
 <pre>
