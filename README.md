@@ -20,8 +20,7 @@ Assumptions:
 Gem::Specification.new do |s|
   s.name        = "gpig"
   s.version     = Gpig::VERSION
-  ..
-  ..
+  ...
 </pre>
 
 - That VERSION variable is referenced in a version file that you give to gpig.
