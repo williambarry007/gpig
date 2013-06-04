@@ -1,3 +1,3 @@
-module Caboose
-  VERSION = "0.1.15"
+module Gpig
+  VERSION = "0.0.1"
 end

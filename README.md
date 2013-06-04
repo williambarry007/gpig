@@ -1,7 +1,7 @@
 GPig
 ====
 
-Usage: gpig <version_file> <git_repo_url>
+Usage: gpig &lt;version_file&gt; &lt;git_repo_url&gt;
 
 This tool helps with gem development.  It allows a developer to quickly develop gems by doing the following:
 
@@ -17,9 +17,11 @@ Assumptions:
 - Your gemspec references a VERSION variable.
 - That VERSION variable is referenced in a version file that you give to gpig.
 
+<code>
 module Gpig
   VERSION = '0.0.1'
 end
+</code>
 
 Example:
 
