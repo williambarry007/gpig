@@ -1,0 +1,45 @@
+#!/usr/bin/env ruby
+
+def increment_version(vfile)
+  str = File.open(vfile).read
+  str.gsub!(/\r\n?/, "\n")
+  str2 = ""
+  str.each_line do |line|
+    if (!line.index('VERSION').nil?)
+      arr = line.split('=')
+      arr = arr[1].gsub('"', '').gsub("'", '').strip.split('.')
+      arr[arr.count-1] = arr[arr.count-1].to_i + 1
+      v = arr.join('.')
+      line = "  VERSION = '#{v}'\n"
+    end
+    str2 << line
+  end
+  File.open(vfile, 'w') { |file| file.write(str2) }
+end
+
+#===============================================================================
+
+vfile = ARGV.count > 0 ? ARGV[0] : false
+repo  = ARGV.count > 1 ? ARGV[1] : false
+
+if (!vfile || !repo || vfile.strip.length == 0 || repo.strip.length == 0)
+  puts "Usage: gpig <version_file> <git_repo_url>\n\n"
+  exit 
+elsif (!File.exists?(vfile))
+  puts "Error: the version file you gave doesn't seem to exist.\n";
+  exit
+end
+
+puts "Modifying the version..."
+increment_version(vfile)
+puts "Adding files to git repo..."
+`git add -A`
+puts "Committing files to git repo..."
+`git commit -m 'More changes'`
+puts "Pulling in any changes..."
+`git pull origin master`
+puts "Pushing in any changes..."
+`git push origin master`
+puts "Installing new version of gem..."
+`gem specific_install -l #{repo}`
+puts "Finished!\n\n"
