@@ -78,6 +78,6 @@ puts "\nPushing in any changes..."
 `git push #{opts.remote} #{opts.branch}`
 
 puts "\nInstalling new version of gem..."
-`gem specific_install -l #{repo}`
+`gem specific_install -l #{opts.repo_url}`
 
 puts "\nFinished!\n\n"
