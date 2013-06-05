@@ -17,5 +17,6 @@ Gem::Specification.new do |s|
   s.executables = ["gpig"]
   
   s.add_dependency "specific_install"
+  s.add_dependency "trollop"
   
 end

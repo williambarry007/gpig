@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-#require 'gpig/version'
+require 'gpig/version'
 require 'trollop'
 require 'yaml'
 
@@ -32,6 +32,7 @@ the gem code, push changes to a git repository, and install the new version
 of the gem locally so you can test it.
 --------------------------------------------------------------------------------
 EOS
+  version "gpig Version #{Gpig::VERSION}\n"
   opt :conf_file      , "The configuration file.", :type => :string, :default => File.join(Dir.pwd,'.gpig')
   opt :increment      , "Whether or not to increment the version.", :default => true
   opt :version_file   , "The version file that holds the VERSION variable that will be incremented.", :type => :string
