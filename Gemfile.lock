@@ -3,6 +3,7 @@ PATH
   specs:
     gpig (0.0.4)
       specific_install
+      trollop
 
 GEM
   remote: http://rubygems.org/
