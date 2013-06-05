@@ -1,4 +1,5 @@
-require "gpig/engine"
+
+require "gpig/version"
 
 module Gpig
 end
