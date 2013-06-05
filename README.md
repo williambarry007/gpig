@@ -1,9 +1,5 @@
-GPig
-====
-
-Usage: gpig &lt;version_file&gt; &lt;git_repo_url&gt;
-
-This tool helps with gem development.  It allows a developer to quickly develop gems by doing the following:
+GPIG (Git Push Install Gem)
+Gpig is a nice little tool to help speed up gem development.  It does the following:
 
 1.  Increments the version of a gem.
 2.  Adds all changed files to the current git repo.
@@ -11,6 +7,19 @@ This tool helps with gem development.  It allows a developer to quickly develop 
 4.  Pulls any changes from the repo's origin.
 5.  Pushes any changes to the origin.
 6.  Runs gem specific_install to install the gem from the git repo URL.
+
+Usage: gpig [options]
+
+Options:
+
+--version        Shows the currently installed version of gpig.
+--conf_file      The configuration file, defaults to .gpig in the current directory.
+--increment      Whether or not to increment the version, defaults to true.
+--version_file   The version file that holds the VERSION variable that will be incremented.
+--repo_url       The URL of the git repo from which the new gem will be installed.
+--remote         The remote to which the local code changes will be pushed, defaults to origin.
+--branch         The branch to which the local code changes will be committed, defaults to master.
+--commit_message The message when committing files to the repo, defaults to "More changes".
 
 Assumptions:
 
@@ -30,12 +39,3 @@ module Gpig
   VERSION = '0.0.1'
 end
 </pre>
-
-Example:
-
-- Create a new gem.
-- Make a change.
-- Run gpig.
-- Test the new version of your gem.
-- Repeat :)
-
