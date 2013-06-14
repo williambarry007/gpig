@@ -1,5 +1,8 @@
 #!/usr/bin/env ruby
 
+# Author: William Barry (william@nine.is)
+# http://github.com/williambarry007/gpig
+
 require 'gpig/version'
 require 'trollop'
 require 'yaml'
@@ -67,7 +70,7 @@ puts "\nAdding files to git repo..."
 `git add -A`
 
 puts "\nCommitting files to git repo..."
-`git commit -m "#{opts.commit_message}"`
+`git commit -m "#{opts.message}"`
 
 puts "\nPulling in any changes..."
 `git pull #{opts.remote} #{opts.branch}`
@@ -82,7 +85,7 @@ puts "\nAdding version file to git repo..."
 `git add -A`
 
 puts "\nCommitting change of version file..."
-`git commit -m "#{opts.commit_message}"`
+`git commit -m "Updated version file"`
 
 puts "\nPushing in any changes..."
 `git push #{opts.remote} #{opts.branch}`
@@ -91,4 +94,4 @@ puts "\nInstalling new version of gem..."
 `gem specific_install -l #{opts.repo_url}`
 
 puts "\nVersion #{new_version} of your gem has been installed locally."  
-puts "\n\nFinished!\n\n"
+puts "\nFinished!\n\n"
