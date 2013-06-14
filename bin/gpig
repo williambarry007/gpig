@@ -116,9 +116,9 @@ puts "\nInstalling version #{new_version} of gem locally..."
 if (opts.gemfile.length > 0)
   if (opts.gemname.strip.length == 0)
     str = `ls -a *.gemspec`
-    puts "#{str}\n"
-    str = str.gsub('.gemspec', '').strip
-    puts "#{str}\n"
+    puts "str = #{str}\n"
+    str = str.gsub('.gemspec', '')
+    puts "str = #{str}\n"
     opts.gemname = str
   end
   if (opts.gemname.strip.length > 0)
