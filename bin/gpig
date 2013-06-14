@@ -116,10 +116,8 @@ puts "\nInstalling version #{new_version} of gem locally..."
 if (opts.gemfile.length > 0)
   if (opts.gemname.strip.length == 0)
     str = `ls -a *.gemspec`
-    puts "str = #{str}\n"
     str = str.gsub('.gemspec', '')
-    puts "str = #{str}\n"
-    opts.gemname = str
+    opts[:gemname] = str
   end
   if (opts.gemname.strip.length > 0)
     puts "\nUpdating version of #{opts.gemname} in #{opts.gemfile}..."
