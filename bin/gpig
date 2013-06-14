@@ -116,11 +116,18 @@ puts "\nInstalling version #{new_version} of gem locally..."
 if (opts.gemfile.length > 0)
   if (opts.gemname.strip.length == 0)
     str = `ls -a *.gemspec`
+    puts "#{str}\n"
     str = str.gsub('.gemspec', '').strip
+    puts "#{str}\n"
     opts.gemname = str
   end
-  puts "\nUpdating version of #{opts.gemname} in #{opts.gemfile}..."
-  set_gem_version(opts.gemfile, opts.gemname, new_version)
+  if (opts.gemname.strip.length > 0)
+    puts "\nUpdating version of #{opts.gemname} in #{opts.gemfile}..."
+    set_gem_version(opts.gemfile, opts.gemname, new_version)
+  else
+    puts "\nError: could not determine gem name for updating gem file."
+    puts "To fix this, add the gem name to your gpig config file."
+  end
 end
 
 puts "\n"
