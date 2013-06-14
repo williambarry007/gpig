@@ -113,7 +113,12 @@ puts "\nPushing changes to the remote..."
 puts "\nInstalling version #{new_version} of gem locally..."
 `gem specific_install -l #{opts.repo_url}`
 
-if (opts.gemfile.length > 0 && opts.gemname.length > 0)
+if (opts.gemfile.length > 0)
+  if (opts.gemname.strip.length == 0)
+    str = `ls -a *.gemspec`
+    str = str.gsub('.gemspec', '').strip
+    opts.gemname = str
+  end
   puts "\nUpdating version of #{opts.gemname} in #{opts.gemfile}..."
   set_gem_version(opts.gemfile, opts.gemname, new_version)
 end
