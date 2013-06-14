@@ -88,11 +88,11 @@ puts "\nAdding version file to git repo..."
 puts "\nCommitting change of version file..."
 `git commit -m "Updated version file"`
 
-puts "\nPushing in any changes..."
+puts "\nPushing changes to the remote..."
 `git push #{opts.remote} #{opts.branch}`
 
 puts "\nInstalling new version of gem..."
 `gem specific_install -l #{opts.repo_url}`
 
-puts "\nVersion #{new_version} of your gem has been installed locally."  
+puts "\nSuccess! Version #{new_version} of your gem has been installed locally."  
 puts "\nFinished!\n\n"
