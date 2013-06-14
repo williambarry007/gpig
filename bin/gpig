@@ -8,17 +8,19 @@ def increment_version(vfile)
   str = File.open(vfile).read
   str.gsub!(/\r\n?/, "\n")
   str2 = ""
+  new_version = ""
   str.each_line do |line|
     if (!line.index('VERSION').nil?)
       arr = line.split('=')
       arr = arr[1].gsub('"', '').gsub("'", '').strip.split('.')
       arr[arr.count-1] = arr[arr.count-1].to_i + 1
-      v = arr.join('.')
-      line = "  VERSION = '#{v}'\n"
+      new_version = arr.join('.')
+      line = "  VERSION = '#{new_version}'\n"
     end
     str2 << line
   end
   File.open(vfile, 'w') { |file| file.write(str2) }
+  return new_version
 end
 
 opts = Trollop::options do
@@ -39,7 +41,7 @@ EOS
   opt :repo_url       , "The URL of the git repo from which the new gem will be installed.", :type => :string
   opt :remote         , "The remote to which the local code changes will be pushed.", :type => :string, :default => 'origin'
   opt :branch         , "The branch to which the local code changes will be committed." , :type => :string, :default => 'master'
-  opt :commit_message , "The message when committing files to the repo.", :type => :string, :default => "More changes"
+  opt :message        , "The message when committing files to the repo.", :type => :string, :default => "More changes"
 end
 
 conf = YAML::load_file(opts.conf_file)
@@ -61,11 +63,6 @@ if (!str.index('nothing to commit').nil?)
   exit
 end
 
-if (opts.increment)
-  puts "\nModifying the version..."
-  increment_version(opts.version_file)
-end
-
 puts "\nAdding files to git repo..."
 `git add -A`
 
@@ -75,10 +72,23 @@ puts "\nCommitting files to git repo..."
 puts "\nPulling in any changes..."
 `git pull #{opts.remote} #{opts.branch}`
 
+new_version = false
+if (opts.increment)
+  puts "\nModifying the version..."
+  new_version = increment_version(opts.version_file)
+end
+
+puts "\nAdding version file to git repo..."
+`git add -A`
+
+puts "\nCommitting change of version file..."
+`git commit -m "#{opts.commit_message}"`
+
 puts "\nPushing in any changes..."
 `git push #{opts.remote} #{opts.branch}`
 
 puts "\nInstalling new version of gem..."
 `gem specific_install -l #{opts.repo_url}`
 
-puts "\nFinished!\n\n"
+puts "\nVersion #{new_version} of your gem has been installed locally."  
+puts "\n\nFinished!\n\n"
