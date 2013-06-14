@@ -27,6 +27,23 @@ def increment_version(vfile)
   return new_version
 end
 
+def set_gem_version(gemfile, gemname, version)
+  return if !File.exists?(gemfile)
+  file = File.open(gemfile, 'rb')
+  str = file.read
+  file.close
+  str2 = ""
+  str.each_line do |line|
+    if (!line.strip.start_with?('#') && (!line.index("gem '#{gemname}'").nil? || !line.index("gem \"#{gemname}\"").nil?))
+      str2 << "##{line}"
+    else
+      str2 << line
+    end
+  end
+  str2 << "gem '#{gemname}', '= #{version}'\n"
+  File.open(gemfile, 'w') {|file| file.write(str2) }
+end
+
 opts = Trollop::options do
 #  version "gpig version #{Gpig::VERSION}\n"
   banner <<-EOS
@@ -46,6 +63,8 @@ EOS
   opt :remote         , "The remote to which the local code changes will be pushed.", :type => :string, :default => 'origin'
   opt :branch         , "The branch to which the local code changes will be committed." , :type => :string, :default => 'master'
   opt :message        , "The message when committing files to the repo.", :type => :string, :default => "More changes"
+  opt :gemname        , "The name of the gem that is being updated.", :type => :string, :default => ""
+  opt :gemfile        , "A gemfile that should be updated with the new version of the gem.", :type => :string, :default => ""
 end
 
 conf = YAML::load_file(opts.conf_file)
@@ -91,8 +110,13 @@ puts "\nCommitting change of version file..."
 puts "\nPushing changes to the remote..."
 `git push #{opts.remote} #{opts.branch}`
 
-puts "\nInstalling new version of gem..."
+puts "\nInstalling version #{new_version} of gem locally..."
 `gem specific_install -l #{opts.repo_url}`
+
+if (opts.gemfile.length > 0 && opts.gemname.length > 0)
+  puts "\nUpdating version of #{opts.gemname} in #{opts.gemfile}..."
+  set_gem_version(opts.gemfile, opts.gemname, new_version)
+end
 
 puts "\n"
 puts "       _"
@@ -106,6 +130,4 @@ puts "              /     /    /   ___.--'"
 puts "             <   .-;`----`\\  \\ \\"
 puts "              \\  \\ \\       \\  \\ \\"
 puts "               \\__\\_\\       \\__\\_\\"
-puts "\nSuccess! Version #{new_version} of your gem has been installed locally."  
-puts "\nFinished!\n\n"
-
+puts "\n-------- Awwww yeah!  You're all finished! --------\n\n"  
