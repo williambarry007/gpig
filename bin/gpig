@@ -108,3 +108,4 @@ puts "              \\  \\ \\       \\  \\ \\"
 puts "               \\__\\_\\       \\__\\_\\"
 puts "\nSuccess! Version #{new_version} of your gem has been installed locally."  
 puts "\nFinished!\n\n"
+
