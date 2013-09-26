@@ -118,7 +118,7 @@ if opts.live
   puts "\nBuilding live version of gem..."
   `gem build #{opts.gemname}.gemspec`
   puts "\nPushing gem to rubygems..."
-  `gem push #{opts.gemname}-#[new_version}`
+  `gem push #{opts.gemname}-#[new_version}.gem`
   puts "\nCleaning up..."
   `rm -f *.gem`
 end
