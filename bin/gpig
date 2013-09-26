@@ -3,6 +3,7 @@
 # Author: William Barry (william@nine.is)
 # http://github.com/williambarry007/gpig
 # Description: Gpig is a tool that makes gem development quick and easy.
+# Have fun :)
 
 require 'gpig/version'
 require 'trollop'
