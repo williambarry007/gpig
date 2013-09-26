@@ -65,6 +65,7 @@ EOS
   opt :message        , "The message when committing files to the repo.", :type => :string, :default => "More changes"
   opt :gemname        , "The name of the gem that is being updated.", :type => :string, :default => ""
   opt :gemfile        , "A gemfile that should be updated with the new version of the gem.", :type => :string, :default => ""
+  opt :live           , "Whether or not to push the new gem to rubygems.", :type => :boolean, :default => false
 end
 
 conf = YAML::load_file(opts.conf_file)
@@ -112,6 +113,15 @@ puts "\nPushing changes to the remote..."
 
 puts "\nInstalling version #{new_version} of gem locally..."
 `gem specific_install -l #{opts.repo_url}`
+
+if opts.live
+  puts "\nBuilding live version of gem..."
+  `gem build #{opts.gemname}.gemspec`
+  puts "\nPushing gem to rubygems..."
+  `gem push #{opts.gemname}-#[new_version}`
+  puts "\nCleaning up..."
+  `rm -f *.gem`
+end
 
 if (opts.gemfile.length > 0)
   if (opts.gemname.strip.length == 0)
