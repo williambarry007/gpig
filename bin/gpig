@@ -45,6 +45,12 @@ def set_gem_version(gemfile, gemname, version)
   File.open(gemfile, 'w') {|file| file.write(str2) }
 end
 
+def get_gemname
+  str = `ls -a *.gemspec`
+  str = str.gsub('.gemspec', '').gsub("\n", '')
+  return str
+end
+
 opts = Trollop::options do
 #  version "gpig version #{Gpig::VERSION}\n"
   banner <<-EOS
@@ -116,20 +122,22 @@ puts "\nInstalling version #{new_version} of gem locally..."
 `gem specific_install -l #{opts.repo_url}`
 
 if opts.live
-  puts "\nBuilding live version of gem..."
-  `gem build #{gemname}.gemspec`
-  puts "\nPushing gem to rubygems..."
-  `gem push #{gemname}-#{new_version}.gem`
-  puts "\nCleaning up..."
-  `rm -f *.gem`
+  opts[:gemname] = get_gemname if opts.gemname.strip.length == 0
+  if (opts.gemname.strip.length > 0)
+    puts "\nBuilding live version of gem..."
+    `gem build #{opts.gemname}.gemspec`
+    puts "\nPushing gem to rubygems..."
+    `gem push #{opts.gemname}-#{new_version}.gem`
+    puts "\nCleaning up..."
+    `rm -f *.gem`
+  else
+    puts "\nError: could not determine gem name for updating gem file."
+    puts "To fix this, add the gem name to your gpig config file."
+  end
 end
 
 if (opts.gemfile.length > 0)
-  if (opts.gemname.strip.length == 0)
-    str = `ls -a *.gemspec`
-    str = str.gsub('.gemspec', '').gsub("\n", '')
-    opts[:gemname] = str
-  end
+  opts[:gemname] = get_gemname if opts.gemname.strip.length == 0
   if (opts.gemname.strip.length > 0)
     puts "\nUpdating version of #{opts.gemname} in #{opts.gemfile}..."
     set_gem_version(opts.gemfile, opts.gemname, new_version)
