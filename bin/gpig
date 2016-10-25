@@ -89,16 +89,17 @@ elsif (!File.exists?(opts.version_file))
 end
 
 str = `git status`
-if (!str.index('nothing to commit').nil?)
+no_local_changes = str.include?('nothing to commit')
+
+if no_local_changes
   puts "There aren't any changes in the working directory.\n\n"
-  exit
+else
+  puts "\nAdding files to git repo..."
+  `git add -A`
+  
+  puts "\nCommitting files to git repo..."
+  `git commit -m "#{opts.message}"`
 end
-
-puts "\nAdding files to git repo..."
-`git add -A`
-
-puts "\nCommitting files to git repo..."
-`git commit -m "#{opts.message}"`
 
 puts "\nPulling in any changes..."
 `git pull #{opts.remote} #{opts.branch}`
