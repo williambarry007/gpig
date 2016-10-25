@@ -102,7 +102,13 @@ else
 end
 
 puts "\nPulling in any changes..."
-`git pull #{opts.remote} #{opts.branch}`
+str = `git pull #{opts.remote} #{opts.branch}`
+no_remote_changes = str.include?('Already up-to-date.')
+
+if no_local_changes && no_remote_changes
+  puts "There are no local or remote changes.\n\n"
+  exit
+end
 
 new_version = false
 if (opts.increment)
