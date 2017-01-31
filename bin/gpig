@@ -125,8 +125,8 @@ puts "\nCommitting change of version file..."
 puts "\nPushing changes to the remote..."
 `git push #{opts.remote} #{opts.branch}`
 
-puts "\nInstalling version #{new_version} of gem locally..."
-`gem specific_install -l #{opts.repo_url}`
+#puts "\nInstalling version #{new_version} of gem locally..."
+#`gem specific_install -l #{opts.repo_url}`
 
 if opts.live
   opts[:gemname] = get_gemname if opts.gemname.strip.length == 0

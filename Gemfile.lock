@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    gpig (0.0.32)
+    gpig (0.0.33)
       specific_install
       trollop
 
